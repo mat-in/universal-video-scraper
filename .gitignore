@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+downloads/
+*.part
+.pytest_cache/
+.ruff_cache/
+opencode-video-scraper-prompt.md
