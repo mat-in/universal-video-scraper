@@ -41,6 +41,7 @@ class Candidate:
     kind: str = KIND_DIRECT
     ext: str | None = None
     referer: str | None = None
+    cookies: str = ""  # raw "name=value; name2=value2" Cookie header value
 
 
 @dataclass(slots=True)

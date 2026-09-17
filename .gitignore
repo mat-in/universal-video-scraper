@@ -9,3 +9,8 @@ downloads/
 .pytest_cache/
 .ruff_cache/
 opencode-video-scraper-prompt.md
+
+# Secrets and local bot runtime
+launch_bot.py
+bot_*.log
+telegram_downloads/

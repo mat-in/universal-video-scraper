@@ -1,0 +1,21 @@
+services:
+  - type: worker
+    name: video-scraper-bot
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: JARVIS_BOT_ALLOWED_IDS
+        sync: false
+      - key: JARVIS_BOT_DOWNLOAD_DIR
+        value: /data/downloads
+      - key: JARVIS_BOT_CONCURRENCY
+        value: "1"
+      - key: PYTHONUTF8
+        value: "1"
+    disk:
+      name: downloads
+      mountPath: /data
+      sizeGB: 10

@@ -1,0 +1,2 @@
+# Telegram bot extras on top of the base video_scraper deps
+python-telegram-bot>=21.0

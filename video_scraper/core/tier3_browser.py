@@ -52,6 +52,7 @@ class BrowserTier:
 
         observed: list[tuple[str, str]] = []
         title = ""
+        cookies_header = ""
         try:
             with sync_playwright() as pw:
                 browser = pw.chromium.launch(headless=True)
@@ -76,6 +77,9 @@ class BrowserTier:
                         pass
                     title = page.title() or ""
                     dom_urls = page.evaluate(_DOM_COLLECT_JS)
+                    cookies_header = "; ".join(
+                        f"{c['name']}={c['value']}" for c in context.cookies()
+                    )
                 finally:
                     browser.close()
         except Exception as exc:
@@ -97,7 +101,7 @@ class BrowserTier:
                 if not trusted:
                     return
                 kind = KIND_DIRECT
-            candidates.append(Candidate(url=raw, kind=kind, referer=url))
+            candidates.append(Candidate(url=raw, kind=kind, referer=url, cookies=cookies_header))
 
         for raw in dom_urls or []:
             add(raw, trusted=True)

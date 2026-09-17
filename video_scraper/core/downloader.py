@@ -78,6 +78,8 @@ class Downloader:
             candidate,
             self._output_dir,
             _stem_for(candidate, title),
+            client=self._client,
+            limiter=self._limiter,
             overwrite=self._overwrite,
             user_agent=USER_AGENT,
         )
@@ -98,6 +100,8 @@ class Downloader:
 
     async def _attempt_stream(self, candidate: Candidate, title: str | None) -> Path:
         headers = {"Referer": candidate.referer} if candidate.referer else {}
+        if candidate.cookies:
+            headers["Cookie"] = candidate.cookies
         request = self._client.build_request("GET", candidate.url, headers=headers)
         response = await self._client.send(request, stream=True)
         try:
@@ -109,7 +113,12 @@ class Downloader:
             content_type = response.headers.get("content-type", "")
             kind = classify_content_type(content_type)
             if kind in (KIND_HLS, KIND_DASH):
-                rerouted = Candidate(url=str(response.url), kind=kind, referer=candidate.referer)
+                rerouted = Candidate(
+                    url=str(response.url),
+                    kind=kind,
+                    referer=candidate.referer,
+                    cookies=candidate.cookies,
+                )
                 return await self._download_manifest(rerouted, title)
 
             ext = _normalized_ext(

@@ -1,0 +1,14 @@
+.git
+.github
+.pytest_cache
+.ruff_cache
+__pycache__
+*.pyc
+*.egg-info
+tests
+bot_*.log
+telegram_downloads
+launch_bot.py
+README.md
+LICENSE
+*.md
